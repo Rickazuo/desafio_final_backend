@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Rota para upload de imagem
 router.post('/upload', upload.single('image'), (req, res) => {
     res.json({ success: true, filePath: req.file.path });
 });

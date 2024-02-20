@@ -1,28 +1,30 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Supondo que você tenha um modelo User definido
+const knexConfig = require('../../knexfile.js');
+const knex = require('knex')(knexConfig.development);
 
 module.exports = {
   async create(req, res) {
     try {
       const { name, email, password } = req.body;
 
-      const existingUser = await User.query().findOne({ email });
+      const existingUser = await knex('users').where({ email }).first();
       if (existingUser) {
         return res.status(400).json({ error: 'User already exists' });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newUser = await User.query().insert({
+      const [newUserId] = await knex('users').insert({
         name,
         email,
         password: hashedPassword,
       });
 
+      const newUser = { id: newUserId, name, email };
       return res.status(201).json(newUser);
     } catch (error) {
       console.error('Error creating user:', error);
       return res.status(500).json({ error: 'Failed to create user' });
     }
-  },
+  }
 };
