@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const knexConfig = require('../../knexfile.js');
-const knex = require('knex')(knexConfig.development);
+const knex = require('../database/db')
+
 
 module.exports = {
   async create(req, res) {
