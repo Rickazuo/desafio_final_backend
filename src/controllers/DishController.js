@@ -4,8 +4,8 @@ module.exports = {
   async create(req, res) {
     try {
       const { name, description, category, image_url, price, user_id } = req.body;
-
-      const newDish = await knex('dishes').insert({
+  
+      const [newDishId] = await knex('dishes').insert({
         name,
         description,
         category,
@@ -13,13 +13,16 @@ module.exports = {
         price,
         user_id,
       });
-
+  
+      const newDish = await knex('dishes').where({ id: newDishId }).first();
+  
       return res.status(201).json(newDish);
     } catch (error) {
       console.error('Error creating dish:', error);
       return res.status(500).json({ error: 'Failed to create dish' });
     }
   },
+  
 
   async getAll(req, res) {
     try {
@@ -52,8 +55,8 @@ module.exports = {
     try {
       const { id } = req.params;
       const { name, description, category, image_url, price, user_id } = req.body;
-
-      const updatedDish = await knex('dishes').where({ id }).update({
+  
+      const updated = await knex('dishes').where({ id }).update({
         name,
         description,
         category,
@@ -61,17 +64,19 @@ module.exports = {
         price,
         user_id,
       });
-
-      if (!updatedDish) {
+  
+      if (!updated) {
         return res.status(404).json({ error: 'Dish not found' });
       }
-
+  
+      const updatedDish = await knex('dishes').where({ id }).first();
       return res.status(200).json(updatedDish);
     } catch (error) {
       console.error('Error updating dish:', error);
       return res.status(500).json({ error: 'Failed to update dish' });
     }
   },
+  
 
   async delete(req, res) {
     try {

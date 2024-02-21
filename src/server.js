@@ -8,8 +8,9 @@ const dishRoutes = require('./routes/dishRoutes');
 const bcrypt = require('bcrypt');
 const knex = require('../knexfile'); 
 const UserController = require('./controllers/UserController'); 
-
 const app = express();
+require('dotenv').config();
+
 
 app.use('/uploads', express.static('uploads'));
 app.use(fileUploadProvider);
