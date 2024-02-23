@@ -19,7 +19,7 @@ module.exports = {
 
       const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
       
-      return res.status(200).json({ token, admin:user.administrator });
+      return res.status(200).json({ token, admin:user.administrator, id: user.id });
     } catch (error) {
       console.error('Error creating session:', error);
       return res.status(500).json({ error: 'Failed to create session' });
