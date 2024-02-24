@@ -3,7 +3,8 @@ const knex = require('../database/db')
 module.exports = {
   async create(req, res) {
     try {
-      const { name, description, category, image_url, price, user_id } = req.body;
+      const { name, description, category, price, user_id } = req.body;
+      const image_url = req.file ? req.file.path : null;
   
       const [newDishId] = await knex('dishes').insert({
         name,
@@ -23,11 +24,11 @@ module.exports = {
     }
   },
   
+  
 
   async getAll(req, res) {
     try {
       const dishes = await knex('dishes');
-      console.log(dishes)
       return res.status(200).json(dishes);
     } catch (error) {
       console.error('Error getting all dishes:', error);
@@ -54,7 +55,8 @@ module.exports = {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { name, description, category, image_url, price, user_id } = req.body;
+      const { name, description, category, price, user_id } = req.body;
+      const image_url = req.file ? req.file.path : null;
   
       const updated = await knex('dishes').where({ id }).update({
         name,
@@ -76,6 +78,7 @@ module.exports = {
       return res.status(500).json({ error: 'Failed to update dish' });
     }
   },
+  
   
 
   async delete(req, res) {
