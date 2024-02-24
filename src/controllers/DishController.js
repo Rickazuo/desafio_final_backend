@@ -24,8 +24,6 @@ module.exports = {
     }
   },
   
-  
-
   async getAll(req, res) {
     try {
       const dishes = await knex('dishes');
@@ -79,8 +77,6 @@ module.exports = {
     }
   },
   
-  
-
   async delete(req, res) {
     try {
       const { id } = req.params;
@@ -90,7 +86,6 @@ module.exports = {
       if (deletedCount === 0) {
         return res.status(404).json({ error: 'Dish not found' });
       }
-
       return res.status(204).send();
     } catch (error) {
       console.error('Error deleting dish:', error);
