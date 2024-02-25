@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const cors = require('cors');
 const fileUploadProvider = require('./providers/fileUploadProvider.js');
 const authRoutes = require('./routes/authRoutes');
@@ -6,11 +7,10 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const dishRoutes = require('./routes/dishRoutes');
 const bcrypt = require('bcrypt');
-const knexConfig = require('./knexfile.js'); 
-const knex = require('knex')(knexConfig.development);
+const knexConfig = require('../knexfile.js'); 
+const knex = require('knex')(knexConfig[process.env.NODE_ENV || 'development']);
 const UserController = require('./controllers/UserController');
 const app = express();
-require('dotenv').config();
 
 app.use('/uploads', express.static('uploads'));
 app.use(fileUploadProvider);
