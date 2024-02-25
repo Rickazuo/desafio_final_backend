@@ -10,7 +10,15 @@ const bcrypt = require('bcrypt');
 const knexConfig = require('../knexfile.js'); 
 const knex = require('knex')(knexConfig[process.env.NODE_ENV || 'development']);
 const UserController = require('./controllers/UserController');
+
 const app = express();
+
+const corsOptions = {
+    origin: 'https://food-explorer-rocketseat.netlify.app',
+    optionsSuccessStatus: 200
+  };
+
+  app.use(cors(corsOptions));
 
 app.use('/uploads', express.static('uploads'));
 app.use(fileUploadProvider);
