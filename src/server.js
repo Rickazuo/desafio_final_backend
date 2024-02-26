@@ -14,7 +14,7 @@ const UserController = require('./controllers/UserController');
 const app = express();
 
 const corsOptions = {
-    origin: 'https://main--food-explorer-rocketseat.netlify.app/',
+    origin: 'https://main--food-explorer-rocketseat.netlify.app',
     optionsSuccessStatus: 200
   };
 
